@@ -1,0 +1,1865 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coloc & Home | Location & Colocation d'appartements meublés tout inclus</title>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            },
+            emeraldBrand: {
+              500: '#10b981',
+              600: '#059669',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom clean scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .badge-blur {
+      backdrop-filter: blur(8px);
+      background-color: rgba(15, 23, 42, 0.65);
+    }
+    .modal-backdrop-blur {
+      backdrop-filter: blur(6px);
+      background-color: rgba(15, 23, 42, 0.6);
+    }
+    .hero-gradient {
+      background: radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.12) 0%, rgba(248, 250, 252, 0) 50%),
+                  radial-gradient(circle at 10% 80%, rgba(16, 185, 129, 0.08) 0%, rgba(248, 250, 252, 0) 50%);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+  <!-- Header Notification Bar -->
+  <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 text-center font-medium flex items-center justify-center gap-2">
+    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300">
+      ⚡ Rentrée 2026
+    </span>
+    <span>Dernières disponibilités sur Paris, Lyon, Bordeaux et Lille : réservez avec 0€ de frais de dossier ce mois-ci !</span>
+  </div>
+
+  <!-- Main Navigation -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center text-white shadow-lg shadow-brand-500/25 group-hover:scale-105 transition-transform">
+            <i data-lucide="home" class="w-6 h-6 stroke-[2.2]"></i>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-extrabold text-2xl tracking-tight text-slate-900 flex items-center gap-1">
+              Coloc<span class="text-brand-600">&</span>Home
+            </span>
+            <span class="text-[10px] tracking-wider uppercase font-semibold text-slate-400 -mt-1">Vivre ensemble, en mieux</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden lg:flex items-center space-x-7 text-sm font-semibold text-slate-600">
+          <a href="#logements" class="hover:text-brand-600 transition-colors">Nos Logements</a>
+          <a href="#avantages" class="hover:text-brand-600 transition-colors">Comment ça marche</a>
+          <a href="#proprietaires" class="hover:text-brand-600 transition-colors flex items-center gap-1.5">
+            Espace Propriétaires
+            <span class="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">Rendement +30%</span>
+          </a>
+          <a href="#avis" class="hover:text-brand-600 transition-colors">Avis & Témoignages</a>
+          <a href="#faq" class="hover:text-brand-600 transition-colors">FAQ</a>
+        </nav>
+
+        <div class="flex items-center gap-3">
+          <!-- Favorites Drawer Button -->
+          <button id="btn-open-favorites" class="relative p-2.5 rounded-xl border border-slate-200 hover:bg-slate-100 text-slate-700 transition flex items-center gap-2 group" title="Mes Favoris">
+            <i data-lucide="heart" class="w-5 h-5 group-hover:text-rose-500 transition-colors"></i>
+            <span id="favorites-badge" class="hidden absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-pulse">0</span>
+            <span class="hidden sm:inline text-xs font-semibold">Favoris</span>
+          </button>
+
+          <!-- Deposit Application Button -->
+          <button onclick="openFastDossierModal()" class="hidden md:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 transition-all">
+            <i data-lucide="file-check" class="w-4 h-4"></i>
+            Déposer mon dossier
+          </button>
+
+          <!-- Owner CTA -->
+          <a href="#proprietaires" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-brand-600 shadow-md shadow-slate-900/10 hover:shadow-brand-600/20 transition-all">
+            <i data-lucide="key" class="w-4 h-4"></i>
+            <span>Propriétaire</span>
+          </a>
+
+          <!-- Mobile Menu Hamburger -->
+          <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Slide Navigation -->
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-6 space-y-3">
+      <a href="#logements" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-slate-50">Nos Logements</a>
+      <a href="#avantages" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-slate-50">Comment ça marche</a>
+      <a href="#proprietaires" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-slate-50">Espace Propriétaires</a>
+      <a href="#avis" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-slate-50">Avis locataires</a>
+      <a href="#faq" class="block px-3 py-2 rounded-lg font-medium text-slate-700 hover:bg-slate-50">FAQ</a>
+      <button onclick="openFastDossierModal()" class="w-full mt-2 flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-bold text-white bg-brand-600">
+        <i data-lucide="file-text" class="w-4 h-4"></i>
+        Déposer mon dossier en ligne
+      </button>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    <section class="relative pt-12 pb-16 md:pt-16 md:pb-24 hero-gradient overflow-hidden border-b border-slate-200/60">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        <!-- Header Text -->
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-brand-200/80 shadow-sm text-brand-700 text-xs font-bold tracking-wide uppercase mb-5">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-500"></i>
+            Location & Colocation Clé en Main
+          </div>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15] mb-5">
+            Trouvez votre colocation ou appartement idéal, <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-indigo-600 to-emerald-600">sans prise de tête</span>.
+          </h1>
+          <p class="text-lg sm:text-xl text-slate-600 font-normal leading-relaxed">
+            Bail individuel garanti sans solidarité, 100% meublé avec goût, charges & Wi-Fi ultra-rapide inclus. Visitez en visio ou sur place et emménagez sereinement.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-3xl p-5 sm:p-7 shadow-2xl shadow-indigo-900/10 border border-slate-200/80 max-w-5xl mx-auto">
+          
+          <!-- Category Tabs -->
+          <div class="flex flex-wrap items-center gap-2 mb-6 border-b border-slate-100 pb-4">
+            <button class="filter-type-btn active px-4 py-2 rounded-xl text-sm font-bold transition flex items-center gap-2 bg-brand-600 text-white" data-type="all">
+              <i data-lucide="layout-grid" class="w-4 h-4"></i> Tous les biens
+            </button>
+            <button class="filter-type-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition flex items-center gap-2" data-type="coloc">
+              <i data-lucide="users" class="w-4 h-4"></i> Chambres en Colocation
+            </button>
+            <button class="filter-type-btn px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 transition flex items-center gap-2" data-type="entier">
+              <i data-lucide="home" class="w-4 h-4"></i> Logements Entiers (Studio / T2 / T3)
+            </button>
+          </div>
+
+          <!-- Filter Fields Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-end">
+            <!-- City selector -->
+            <div>
+              <label for="filter-city" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1.5">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-600"></i> Ville / Métropole
+              </label>
+              <div class="relative">
+                <select id="filter-city" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white appearance-none transition">
+                  <option value="all">Toutes nos villes (France)</option>
+                  <option value="Paris">Paris & Île-de-France</option>
+                  <option value="Lyon">Lyon & Villeurbanne</option>
+                  <option value="Bordeaux">Bordeaux Métropole</option>
+                  <option value="Lille">Lille & Métropole</option>
+                  <option value="Nantes">Nantes</option>
+                  <option value="Toulouse">Toulouse</option>
+                  <option value="Marseille">Marseille</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-slate-400">
+                  <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- Budget Slider -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <label for="filter-budget" class="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                  <i data-lucide="euro" class="w-3.5 h-3.5 text-emerald-600"></i> Budget max. (tout inclus)
+                </label>
+                <span id="budget-value" class="text-sm font-black text-brand-700 bg-brand-50 px-2 py-0.5 rounded-md">1 200 € / mois</span>
+              </div>
+              <input id="filter-budget" type="range" min="400" max="1500" step="25" value="1200" 
+                class="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600 mt-2" />
+              <div class="flex justify-between text-[11px] text-slate-400 font-medium mt-1.5">
+                <span>400 €</span>
+                <span>800 €</span>
+                <span>1 500 €</span>
+              </div>
+            </div>
+
+            <!-- Search Action CTA -->
+            <div>
+              <button id="btn-apply-filters" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3.5 px-6 rounded-xl shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 transition hover:-translate-y-0.5">
+                <i data-lucide="search" class="w-4 h-4"></i>
+                <span id="search-cta-text">Afficher les logements</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Amenities Filter Pills -->
+          <div class="mt-5 pt-4 border-t border-slate-100 flex flex-wrap items-center gap-2">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2 flex items-center gap-1">
+              <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i> Filtres rapides :
+            </span>
+            <label class="amenity-chip cursor-pointer text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-200 hover:border-brand-500 text-slate-700 bg-slate-50 flex items-center gap-1.5 transition">
+              <input type="checkbox" value="bail_indiv" class="filter-amenity rounded text-brand-600 focus:ring-brand-500" checked />
+              <span>Bail individuel</span>
+            </label>
+            <label class="amenity-chip cursor-pointer text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-200 hover:border-brand-500 text-slate-700 bg-slate-50 flex items-center gap-1.5 transition">
+              <input type="checkbox" value="apl" class="filter-amenity rounded text-brand-600 focus:ring-brand-500" />
+              <span>Éligible APL</span>
+            </label>
+            <label class="amenity-chip cursor-pointer text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-200 hover:border-brand-500 text-slate-700 bg-slate-50 flex items-center gap-1.5 transition">
+              <input type="checkbox" value="sdb_privee" class="filter-amenity rounded text-brand-600 focus:ring-brand-500" />
+              <span>Salle de bain privée</span>
+            </label>
+            <label class="amenity-chip cursor-pointer text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-200 hover:border-brand-500 text-slate-700 bg-slate-50 flex items-center gap-1.5 transition">
+              <input type="checkbox" value="balcon" class="filter-amenity rounded text-brand-600 focus:ring-brand-500" />
+              <span>Balcon / Terrasse</span>
+            </label>
+            <label class="amenity-chip cursor-pointer text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-200 hover:border-brand-500 text-slate-700 bg-slate-50 flex items-center gap-1.5 transition">
+              <input type="checkbox" value="clim" class="filter-amenity rounded text-brand-600 focus:ring-brand-500" />
+              <span>Climatisation</span>
+            </label>
+            <button id="btn-reset-filters" class="text-xs font-semibold text-slate-400 hover:text-rose-600 ml-auto flex items-center gap-1 transition">
+              <i data-lucide="rotate-ccw" class="w-3 h-3"></i> Réinitialiser
+            </button>
+          </div>
+        </div>
+
+        <!-- Trust Badges Under Hero -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-semibold text-slate-500">
+          <div class="flex items-center gap-2">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+            <span>Aucune caution solidaire requise</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i>
+            <span>Dossier validé sous 24h ouvrées</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="wifi" class="w-4 h-4 text-indigo-600"></i>
+            <span>Fibre Très Haut Débit incluse</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="star" class="w-4 h-4 text-amber-500 fill-amber-500"></i>
+            <span>4.9/5 sur 640+ avis locataires</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="logements" class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header with Sorting -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-xs font-bold text-brand-600 uppercase tracking-widest">Nos biens disponibles</span>
+          <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Découvrez votre prochain chez-vous</h2>
+          <p class="text-slate-500 text-sm mt-1">Appartements rénovés par architecte d'intérieur, prêts à vivre.</p>
+        </div>
+
+        <!-- Results Counter & Sort Selector -->
+        <div class="flex items-center gap-3">
+          <span id="results-count-badge" class="text-xs font-bold text-slate-500 bg-slate-200/70 px-3 py-2 rounded-xl">
+            8 logements trouvés
+          </span>
+          <select id="sort-select" class="text-xs font-bold bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-brand-500">
+            <option value="recommended">Recommandés</option>
+            <option value="price-asc">Prix croissant</option>
+            <option value="price-desc">Prix décroissant</option>
+            <option value="surface-desc">Plus grande surface</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="listings-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Javascript dynamically renders listings cards here -->
+      </div>
+
+      <!-- Empty state when no filters match -->
+      <div id="no-results-state" class="hidden text-center py-16 px-4 bg-white rounded-3xl border border-slate-200 max-w-md mx-auto">
+        <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
+          <i data-lucide="search-x" class="w-8 h-8"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 mb-1">Aucun logement ne correspond</h3>
+        <p class="text-sm text-slate-500 mb-5">Essayez d'augmenter votre budget ou de désactiver certains critères de recherche.</p>
+        <button onclick="resetAllFilters()" class="px-5 py-2.5 bg-brand-600 text-white rounded-xl text-xs font-bold hover:bg-brand-700 transition">
+          Réinitialiser tous les filtres
+        </button>
+      </div>
+
+    </section>
+
+    <section id="avantages" class="py-20 bg-slate-900 text-white relative overflow-hidden">
+      <!-- Glow ambient background -->
+      <div class="absolute -top-32 -left-32 w-96 h-96 bg-brand-600/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-emerald-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="text-xs font-bold uppercase tracking-widest text-emerald-400">L'expérience Coloc & Home</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 text-white">
+            Tout le confort d'un hôtel, la chaleur d'un vrai chez-soi
+          </h2>
+          <p class="text-slate-400 text-base mt-3">
+            Nous réinventons la colocation et la location urbaine avec des engagements concrets pour une sérénité absolue.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Pillar 1 -->
+          <div class="bg-slate-800/80 backdrop-blur border border-slate-700/80 rounded-3xl p-7 hover:border-brand-500/50 transition group">
+            <div class="w-14 h-14 rounded-2xl bg-brand-500/15 border border-brand-500/30 flex items-center justify-center text-brand-400 mb-6 group-hover:scale-110 transition-transform">
+              <i data-lucide="shield" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Bail Individuel</h3>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              Zéro clause de solidarité financière. Si un colocataire part, vous ne payez que votre propre loyer sans jamais compenser pour les autres.
+            </p>
+          </div>
+
+          <!-- Pillar 2 -->
+          <div class="bg-slate-800/80 backdrop-blur border border-slate-700/80 rounded-3xl p-7 hover:border-emerald-500/50 transition group">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 transition-transform">
+              <i data-lucide="receipt" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Facture Unique Tout Inclus</h3>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              Eau, électricité, chauffage, assurance, ménage régulier des parties communes et Fibre optique Wi-Fi 6. Zéro mauvaise surprise en fin de mois.
+            </p>
+          </div>
+
+          <!-- Pillar 3 -->
+          <div class="bg-slate-800/80 backdrop-blur border border-slate-700/80 rounded-3xl p-7 hover:border-amber-500/50 transition group">
+            <div class="w-14 h-14 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 mb-6 group-hover:scale-110 transition-transform">
+              <i data-lucide="armchair" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Design & Clé en Main</h3>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              Literie hôtelière 140x200cm neuve, bureau ergonomique, cuisine hyper-équipée (lave-vaisselle, Nespresso, robot), Smart TV 4K et lave-linge.
+            </p>
+          </div>
+
+          <!-- Pillar 4 -->
+          <div class="bg-slate-800/80 backdrop-blur border border-slate-700/80 rounded-3xl p-7 hover:border-indigo-500/50 transition group">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-6 group-hover:scale-110 transition-transform">
+              <i data-lucide="clock-check" class="w-7 h-7"></i>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Réponse sous 24h</h3>
+            <p class="text-sm text-slate-300 leading-relaxed">
+              Dossier 100% numérique, signature électronique et remise des clés flexible. Visite physique ou vidéo interactive avec l'équipe dédiée.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="proprietaires" class="py-20 bg-slate-100/80 border-b border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <!-- Left Column: Proposition for owners -->
+          <div class="lg:col-span-6 space-y-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
+              <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
+              Espace Propriétaires & Investisseurs
+            </div>
+            
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+              Boostez votre rentabilité jusqu'à <span class="text-emerald-600">+35%</span> avec zéro gestion.
+            </h2>
+            
+            <p class="text-slate-600 leading-relaxed">
+              Confiez votre appartement en colocation meublée premium. Nous prenons en charge la sélection rigoureuse des profils, les baux individuels, l'entretien continu et nous garantissons le versement de vos loyers le 5 de chaque mois.
+            </p>
+
+            <div class="space-y-3 pt-2">
+              <div class="flex items-start gap-3">
+                <div class="w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-slate-900">Garantie Loyers Impayés Totale</h4>
+                  <p class="text-xs text-slate-500">Loyer garanti même en cas de vacance locative temporaire d'une chambre.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-slate-900">Valorisation & Mobilier Offert ou Amorti</h4>
+                  <p class="text-xs text-slate-500">Accompagnement par nos décorateurs pour un statut fiscal LMNP ultra-optimisé.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <div class="w-6 h-6 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0 mt-0.5">
+                  <i data-lucide="check" class="w-4 h-4 stroke-[3]"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-bold text-slate-900">Maintenance & Visites Régulières</h4>
+                  <p class="text-xs text-slate-500">Check-up semestriel, conciergerie et petites réparations prises en charge.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4 flex flex-wrap gap-4 items-center">
+              <a href="#contact" class="px-6 py-3.5 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-brand-600 transition shadow-lg shadow-slate-900/15 flex items-center gap-2">
+                <i data-lucide="phone-call" class="w-4 h-4"></i>
+                Prendre rendez-vous avec un conseiller
+              </a>
+              <span class="text-xs text-slate-500 font-medium">Étude gratuite sans engagement</span>
+            </div>
+          </div>
+
+          <div class="lg:col-span-6">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl shadow-slate-300/40 border border-slate-200">
+              <div class="flex items-center justify-between pb-5 border-b border-slate-100">
+                <div>
+                  <h3 class="font-extrabold text-lg text-slate-900 flex items-center gap-2">
+                    <i data-lucide="calculator" class="w-5 h-5 text-brand-600"></i>
+                    Simulateur de Revenus Locatifs
+                  </h3>
+                  <p class="text-xs text-slate-400">Estimation instantanée de vos loyers Coloc & Home</p>
+                </div>
+                <span class="px-2.5 py-1 rounded-md bg-brand-50 text-brand-700 text-xs font-bold uppercase">Clé en main</span>
+              </div>
+
+              <div class="space-y-5 mt-6">
+                <!-- City input -->
+                <div>
+                  <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Ville du bien</label>
+                  <select id="sim-city" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-brand-500">
+                    <option value="paris" data-price-m2="38">Paris & Première Couronne</option>
+                    <option value="lyon" data-price-m2="26" selected>Lyon Métropole</option>
+                    <option value="bordeaux" data-price-m2="25">Bordeaux</option>
+                    <option value="lille" data-price-m2="22">Lille Métropole</option>
+                    <option value="nantes" data-price-m2="21">Nantes</option>
+                    <option value="toulouse" data-price-m2="21">Toulouse</option>
+                  </select>
+                </div>
+
+                <!-- Surface slider -->
+                <div>
+                  <div class="flex justify-between items-center text-xs font-bold uppercase text-slate-500 mb-1.5">
+                    <span>Surface habitable</span>
+                    <span id="sim-surface-label" class="text-brand-700 font-extrabold text-sm">75 m²</span>
+                  </div>
+                  <input id="sim-surface" type="range" min="30" max="180" step="5" value="75"
+                    class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600" />
+                  <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+                    <span>30 m²</span>
+                    <span>100 m²</span>
+                    <span>180 m²</span>
+                  </div>
+                </div>
+
+                <!-- Typology Rooms count -->
+                <div>
+                  <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Nombre de chambres (ou pièces)</label>
+                  <div class="grid grid-cols-4 gap-2">
+                    <button type="button" class="sim-room-btn py-2 text-xs font-bold rounded-xl border border-slate-200 hover:border-brand-500 transition" data-rooms="1">Studio / T1</button>
+                    <button type="button" class="sim-room-btn py-2 text-xs font-bold rounded-xl border border-slate-200 hover:border-brand-500 transition" data-rooms="2">T2</button>
+                    <button type="button" class="sim-room-btn active py-2 text-xs font-bold rounded-xl border border-brand-600 bg-brand-50 text-brand-700 transition" data-rooms="3">T3 (3 ch.)</button>
+                    <button type="button" class="sim-room-btn py-2 text-xs font-bold rounded-xl border border-slate-200 hover:border-brand-500 transition" data-rooms="4">T4+ (4 ch.)</button>
+                  </div>
+                </div>
+
+                <!-- Result Card -->
+                <div class="p-5 bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-2xl relative overflow-hidden">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <span class="text-xs font-semibold text-slate-300">Revenu mensuel estimé :</span>
+                      <div class="text-3xl font-extrabold text-emerald-400 mt-0.5" id="sim-result-monthly">
+                        1 950 € <span class="text-xs font-medium text-slate-300">/ mois</span>
+                      </div>
+                      <span class="text-[11px] text-slate-400 block mt-1">Soit environ <b id="sim-result-yearly" class="text-white">23 400 €</b> brut / an</span>
+                    </div>
+                    <div class="text-right">
+                      <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300">
+                        +32% vs bail nu
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- CTA to receive report -->
+                <button onclick="requestOwnerAudit()" class="w-full py-3 px-4 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/20 transition flex items-center justify-center gap-2">
+                  <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+                  Recevoir mon audit de rentabilité complet
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="avis" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold mb-3">
+          <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-500 text-amber-500"></i>
+          <span>Note globale 4.9/5 par nos résidents</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Ce que disent nos locataires et colocs</h2>
+        <p class="text-slate-500 text-sm mt-2">Plus de 1 800 colocataires et locataires ont trouvé leur appartement idéal avec nous.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Review 1 -->
+        <div class="bg-white p-7 rounded-3xl border border-slate-200/80 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 text-amber-500 mb-4">
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+            </div>
+            <p class="text-slate-700 text-sm leading-relaxed mb-6">
+              « J'arrivais à Lyon pour mon premier CDI, sans connaître personne. En 48h mon dossier était validé et j'ai emménagé dans un super duplex à Jean Macé. Mes colocs sont devenus de vrais amis, et le fait d'avoir son bail individuel enlève tout stress ! »
+            </p>
+          </div>
+          <div class="flex items-center gap-3 pt-4 border-t border-slate-100">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80" alt="Sarah D." class="w-10 h-10 rounded-full object-cover border border-brand-200" onerror="this.src='https://placehold.co/80x80/6366f1/ffffff?text=SD'" />
+            <div>
+              <h4 class="text-xs font-bold text-slate-900">Sarah D., 25 ans</h4>
+              <span class="text-[11px] text-slate-400">Colocataire à Lyon 7e • 1 an chez Coloc & Home</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 2 -->
+        <div class="bg-white p-7 rounded-3xl border border-slate-200/80 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 text-amber-500 mb-4">
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+            </div>
+            <p class="text-slate-700 text-sm leading-relaxed mb-6">
+              « Le tout-inclus est une bénédiction : eau, électricité, box internet fibre déjà installée, rien à souscrire. J'ai posé mes valises et j'ai pu me concentrer directement sur mes études à Bordeaux. Service client super réactif par WhatsApp. »
+            </p>
+          </div>
+          <div class="flex items-center gap-3 pt-4 border-t border-slate-100">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=80" alt="Julien M." class="w-10 h-10 rounded-full object-cover border border-brand-200" onerror="this.src='https://placehold.co/80x80/6366f1/ffffff?text=JM'" />
+            <div>
+              <h4 class="text-xs font-bold text-slate-900">Julien M., 27 ans</h4>
+              <span class="text-[11px] text-slate-400">Locataire Studio Chartrons • Bordeaux</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review 3 -->
+        <div class="bg-white p-7 rounded-3xl border border-slate-200/80 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-1 text-amber-500 mb-4">
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+            </div>
+            <p class="text-slate-700 text-sm leading-relaxed mb-6">
+              « En tant que propriétaire de deux appartements à Lille, j'ai confié la colocation à Coloc & Home. Résultat : zéro vacance locative depuis 3 ans et des loyers 25% supérieurs au marché classique. Bravo à toute l'équipe gestion ! »
+            </p>
+          </div>
+          <div class="flex items-center gap-3 pt-4 border-t border-slate-100">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&h=120&q=80" alt="Valérie G." class="w-10 h-10 rounded-full object-cover border border-brand-200" onerror="this.src='https://placehold.co/80x80/6366f1/ffffff?text=VG'" />
+            <div>
+              <h4 class="text-xs font-bold text-slate-900">Valérie G.</h4>
+              <span class="text-[11px] text-slate-400">Propriétaire bailleur • 2 appartements</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="faq" class="py-20 bg-slate-100/60 border-t border-b border-slate-200">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center mb-12">
+          <span class="text-xs font-bold uppercase tracking-widest text-brand-600">Questions Fréquentes</span>
+          <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Tout ce que vous devez savoir</h2>
+          <p class="text-sm text-slate-500 mt-2">Une question spécifique ? Notre équipe vous répond 7j/7.</p>
+        </div>
+
+        <div class="space-y-4" id="faq-accordion">
+          
+          <!-- Item 1 -->
+          <div class="faq-item bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition">
+            <button class="faq-trigger w-full px-6 py-5 text-left font-bold text-slate-800 flex justify-between items-center text-sm md:text-base hover:text-brand-600">
+              <span>Comment fonctionne le bail individuel en colocation ?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-200 faq-icon"></i>
+            </button>
+            <div class="faq-content px-6 pb-5 pt-0 text-xs md:text-sm text-slate-600 leading-relaxed hidden">
+              Chaque colocataire signe son propre contrat de bail pour sa chambre privative ainsi que l'accès aux parties communes (salon, cuisine, terrasse). Vous n'êtes <strong>pas solidaire financièrement</strong> des autres colocataires. Si un colocataire quitte les lieux ou tarde à régler son loyer, cela n'a aucun impact sur vous.
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="faq-item bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition">
+            <button class="faq-trigger w-full px-6 py-5 text-left font-bold text-slate-800 flex justify-between items-center text-sm md:text-base hover:text-brand-600">
+              <span>Qu'est-ce qui est exactement inclus dans le loyer « Tout Inclus » ?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-200 faq-icon"></i>
+            </button>
+            <div class="faq-content px-6 pb-5 pt-0 text-xs md:text-sm text-slate-600 leading-relaxed hidden">
+              Le forfait tout compris comprend : le loyer de base, l'eau chaude et froide, l'électricité, le chauffage, la taxe d'ordures ménagères, la connexion Internet Fibre optique très haut débit, ainsi que le ménage bimensuel des espaces communs pour maintenir l'appartement impeccable.
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="faq-item bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition">
+            <button class="faq-trigger w-full px-6 py-5 text-left font-bold text-slate-800 flex justify-between items-center text-sm md:text-base hover:text-brand-600">
+              <span>Les logements sont-ils éligibles aux APL / CAF ?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-200 faq-icon"></i>
+            </button>
+            <div class="faq-content px-6 pb-5 pt-0 text-xs md:text-sm text-slate-600 leading-relaxed hidden">
+              Oui, 100% de nos logements et chambres individuelles sont conventionnés pour bénéficier de l'Aide Personnalisée au Logement (APL ou ALS). Dès la signature de votre contrat, nous vous remettons l'attestation de loyer complétée pour votre dossier CAF en un clic.
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="faq-item bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition">
+            <button class="faq-trigger w-full px-6 py-5 text-left font-bold text-slate-800 flex justify-between items-center text-sm md:text-base hover:text-brand-600">
+              <span>Faut-il un garant ? Acceptez-vous la garantie Visale ?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-200 faq-icon"></i>
+            </button>
+            <div class="faq-content px-6 pb-5 pt-0 text-xs md:text-sm text-slate-600 leading-relaxed hidden">
+              Nous acceptons les garants physiques (parents, proches) ainsi que le dispositif gratuit de l'État <strong>Garantie Visale</strong> et les services tiers certifiés comme Garantme ou SmartGarant. Les étudiants internationaux et jeunes actifs sont les bienvenus.
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="faq-item bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition">
+            <button class="faq-trigger w-full px-6 py-5 text-left font-bold text-slate-800 flex justify-between items-center text-sm md:text-base hover:text-brand-600">
+              <span>Quel est le préavis pour quitter mon logement ?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 transition-transform duration-200 faq-icon"></i>
+            </button>
+            <div class="faq-content px-6 pb-5 pt-0 text-xs md:text-sm text-slate-600 leading-relaxed hidden">
+              Tous nos baux meublés obéissent au préavis légal avantageux de <strong>1 mois seulement</strong>. Vous êtes libre de partir quand vous le souhaitez en nous prévenant par simple lettre recommandée ou recommandé électronique.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="contact" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-gradient-to-r from-brand-700 via-indigo-700 to-slate-900 rounded-3xl p-8 sm:p-14 text-white relative overflow-hidden shadow-2xl">
+        <div class="relative z-10 max-w-2xl">
+          <span class="text-xs uppercase font-extrabold tracking-widest text-emerald-300">Contact rapide</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 text-white">
+            Un projet de location ou une question sur un appartement ?
+          </h2>
+          <p class="text-indigo-100 text-sm sm:text-base mt-3 leading-relaxed">
+            Notre équipe vous accompagne du lundi au samedi. Réponse garantie sous 24h ouvrées.
+          </p>
+          
+          <form onsubmit="handleContactSubmit(event)" class="mt-8 flex flex-col sm:flex-row gap-3">
+            <input type="email" required placeholder="Votre adresse email professionnelle ou étudiante" 
+              class="w-full sm:w-80 px-4 py-3.5 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+            <button type="submit" class="px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold text-sm transition shadow-lg flex items-center justify-center gap-2 whitespace-nowrap">
+              <span>Être rappelé gratuitement</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </form>
+          <div class="flex items-center gap-6 mt-6 text-xs text-indigo-200">
+            <span class="flex items-center gap-1.5"><i data-lucide="phone" class="w-3.5 h-3.5"></i> 01 89 71 42 00</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="mail" class="w-3.5 h-3.5"></i> hello@colocandhome.fr</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-slate-900 text-slate-400 text-xs py-14 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+        
+        <!-- Brand Info -->
+        <div class="col-span-2">
+          <div class="flex items-center gap-2 text-white font-extrabold text-xl mb-3">
+            <div class="w-8 h-8 rounded-xl bg-brand-600 flex items-center justify-center text-white">
+              <i data-lucide="home" class="w-4 h-4"></i>
+            </div>
+            <span>Coloc<span class="text-brand-500">&</span>Home</span>
+          </div>
+          <p class="text-slate-400 text-xs leading-relaxed max-w-sm mb-4">
+            La plateforme référence de colocation et location meublée nouvelle génération en France. Bail individuel, simplicité digitale et appartements prêts à vivre.
+          </p>
+          <p class="text-[11px] text-slate-500">© 2026 Coloc & Home SAS. Tous droits réservés.</p>
+        </div>
+
+        <!-- Colocation Cities -->
+        <div>
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Nos Métropoles</h4>
+          <ul class="space-y-2">
+            <li><a href="#logements" onclick="filterByCity('Paris')" class="hover:text-white transition">Paris & Île-de-France</a></li>
+            <li><a href="#logements" onclick="filterByCity('Lyon')" class="hover:text-white transition">Lyon</a></li>
+            <li><a href="#logements" onclick="filterByCity('Bordeaux')" class="hover:text-white transition">Bordeaux</a></li>
+            <li><a href="#logements" onclick="filterByCity('Lille')" class="hover:text-white transition">Lille</a></li>
+            <li><a href="#logements" onclick="filterByCity('Nantes')" class="hover:text-white transition">Nantes</a></li>
+            <li><a href="#logements" onclick="filterByCity('Toulouse')" class="hover:text-white transition">Toulouse</a></li>
+          </ul>
+        </div>
+
+        <!-- Services -->
+        <div>
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Services</h4>
+          <ul class="space-y-2">
+            <li><a href="#avantages" class="hover:text-white transition">Bail individuel</a></li>
+            <li><a href="#proprietaires" class="hover:text-white transition">Gestion locative</a></li>
+            <li><a href="#proprietaires" class="hover:text-white transition">Garantie des loyers</a></li>
+            <li><button onclick="openFastDossierModal()" class="hover:text-white transition text-left">Dépôt de dossier</button></li>
+            <li><a href="#faq" class="hover:text-white transition">Aide aux APL</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal & Trust -->
+        <div>
+          <h4 class="text-white font-bold text-xs uppercase tracking-wider mb-3">Informations</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition">Mentions légales</a></li>
+            <li><a href="#" class="hover:text-white transition">Politique de confidentialité</a></li>
+            <li><a href="#" class="hover:text-white transition">Conditions Générales (CGU)</a></li>
+            <li><a href="#" class="hover:text-white transition">Barème d'honoraires</a></li>
+            <li><a href="#contact" class="hover:text-white transition">Recrutement</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-4">
+        <span>Fait avec passion pour faciliter la vie des citadins et des propriétaires.</span>
+        <div class="flex items-center gap-4">
+          <a href="#" class="hover:text-slate-300">LinkedIn</a>
+          <a href="#" class="hover:text-slate-300">Instagram</a>
+          <a href="#" class="hover:text-slate-300">TikTok</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL: Listing Detail Modal -->
+  <div id="listing-modal" class="fixed inset-0 z-50 hidden modal-backdrop-blur overflow-y-auto">
+    <div class="min-h-screen px-4 py-8 flex items-center justify-center">
+      
+      <div class="bg-white rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden relative animate-in fade-in zoom-in-95 duration-200">
+        <!-- Close button -->
+        <button onclick="closeListingModal()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/60 text-white hover:bg-black flex items-center justify-center transition shadow-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+
+        <div id="modal-content">
+          <!-- Filled dynamically via JS -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- DRAWER: Saved Favorites Drawer -->
+  <div id="favorites-drawer" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="toggleFavoritesDrawer(false)"></div>
+    <div class="fixed inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl flex flex-col z-10">
+      
+      <!-- Drawer Header -->
+      <div class="p-5 border-b border-slate-200 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-500 flex items-center justify-center">
+            <i data-lucide="heart" class="w-4 h-4 fill-rose-500"></i>
+          </div>
+          <h3 class="font-extrabold text-base text-slate-900">Mes Logements Favoris</h3>
+          <span id="fav-drawer-count" class="text-xs bg-slate-100 font-bold px-2 py-0.5 rounded-full text-slate-600">0</span>
+        </div>
+        <button onclick="toggleFavoritesDrawer(false)" class="p-2 text-slate-400 hover:text-slate-700 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Drawer List Content -->
+      <div id="favorites-items-list" class="flex-grow overflow-y-auto p-5 space-y-4">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Drawer Footer -->
+      <div class="p-5 border-t border-slate-200 bg-slate-50 space-y-3">
+        <button onclick="openFastDossierModal()" class="w-full py-3 px-4 rounded-xl text-xs font-bold text-white bg-brand-600 hover:bg-brand-700 transition shadow flex items-center justify-center gap-2">
+          <i data-lucide="send" class="w-4 h-4"></i>
+          Candidater à ma sélection
+        </button>
+        <button onclick="clearAllFavorites()" class="w-full py-2 text-center text-xs font-semibold text-slate-400 hover:text-rose-600 transition">
+          Vider mes favoris
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: Fast Dossier Submission Modal -->
+  <div id="dossier-modal" class="fixed inset-0 z-50 hidden modal-backdrop-blur overflow-y-auto">
+    <div class="min-h-screen px-4 py-8 flex items-center justify-center">
+      <div class="bg-white rounded-3xl max-w-lg w-full shadow-2xl p-6 sm:p-8 relative">
+        <button onclick="closeFastDossierModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+
+        <div class="text-center mb-6">
+          <div class="w-12 h-12 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="file-check-2" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-extrabold text-slate-900">Déposer mon dossier en 2 minutes</h3>
+          <p class="text-xs text-slate-500 mt-1">Réponse de principe certifiée sous 24h ouvrées.</p>
+        </div>
+
+        <form id="dossier-form" onsubmit="handleDossierSubmit(event)" class="space-y-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1">Prénom</label>
+              <input type="text" required placeholder="Alexandre" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1">Nom</label>
+              <input type="text" required placeholder="Dupont" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1">Email</label>
+              <input type="email" required placeholder="alex@exemple.fr" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1">Téléphone</label>
+              <input type="tel" required placeholder="06 12 34 56 78" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1">Statut actuel</label>
+              <select class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white">
+                <option>Salarié(e) CDI</option>
+                <option>Salarié(e) CDD / Période d'essai</option>
+                <option>Étudiant(e) / Alternant(e)</option>
+                <option>Indépendant / Freelance</option>
+                <option>Autre statut</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1">Ville recherchée</label>
+              <select class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white">
+                <option>Paris</option>
+                <option>Lyon</option>
+                <option>Bordeaux</option>
+                <option>Lille</option>
+                <option>Nantes</option>
+                <option>Toulouse</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-600 mb-1">Garant(s) disponible(s)</label>
+            <div class="grid grid-cols-3 gap-2 text-xs">
+              <label class="flex items-center gap-1.5 p-2 rounded-lg border border-slate-200 cursor-pointer bg-slate-50 hover:border-brand-500">
+                <input type="radio" name="garant-type" checked class="text-brand-600" />
+                <span>Physique (Parents)</span>
+              </label>
+              <label class="flex items-center gap-1.5 p-2 rounded-lg border border-slate-200 cursor-pointer bg-slate-50 hover:border-brand-500">
+                <input type="radio" name="garant-type" class="text-brand-600" />
+                <span>Garantie Visale</span>
+              </label>
+              <label class="flex items-center gap-1.5 p-2 rounded-lg border border-slate-200 cursor-pointer bg-slate-50 hover:border-brand-500">
+                <input type="radio" name="garant-type" class="text-brand-600" />
+                <span>Garantme / Autre</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Drag and drop simulation -->
+          <div class="border-2 border-dashed border-slate-300 rounded-2xl p-4 text-center hover:border-brand-500 transition cursor-pointer bg-slate-50/50">
+            <i data-lucide="cloud-upload" class="w-6 h-6 text-brand-600 mx-auto mb-1"></i>
+            <span class="text-xs font-bold text-slate-700 block">Glissez votre pièce d'identité ou justificatif</span>
+            <span class="text-[10px] text-slate-400">PDF, JPG, PNG (Max 15 Mo) - Optionnel à cette étape</span>
+          </div>
+
+          <button type="submit" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs transition shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2">
+            <i data-lucide="send" class="w-4 h-4"></i>
+            Transmettre ma candidature prioritaire
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none">
+    <!-- Popups inserted dynamically -->
+  </div>
+
+  <script>
+    /* Complete mock listings database */
+    const APARTMENTS = [
+      {
+        id: 1,
+        title: "Loft Haussmannien Bastille",
+        type: "coloc",
+        typeLabel: "Chambre en colocation (4 pers.)",
+        roomSize: "16 m²",
+        totalSize: "115 m²",
+        city: "Paris",
+        address: "Rue de la Roquette, Paris 11e",
+        metro: "Métro Bastille (L1, L5, L8) à 3 min",
+        price: 890,
+        badge: "Dernière chambre",
+        badgeColor: "bg-rose-500",
+        images: [
+          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1000&q=80"
+        ],
+        amenities: ["Bail individuel", "Éligible APL", "Fibre Wi-Fi 6", "Lave-vaisselle", "Lave-linge & Sèche-linge", "Balcon / Terrasse"],
+        flags: { bail_indiv: true, apl: true, sdb_privee: false, balcon: true, clim: false },
+        roommates: [
+          { name: "Thomas", age: 26, job: "Ingénieur logiciel", avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&h=80&q=80" },
+          { name: "Léa", age: 24, job: "Designer graphique", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=80&h=80&q=80" },
+          { name: "Julien", age: 28, job: "Consultant RSE", avatar: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=80&h=80&q=80" }
+        ],
+        description: "Superbe colocation haut de gamme au 3e étage avec ascenseur. Parquet en point de Hongrie, moulures, très belle hauteur sous plafond. Salon spacieux de 38 m² baigné de soleil avec balcon filant. Chambre privative avec lit coffre 140x200 et dressing sur-mesure."
+      },
+      {
+        id: 2,
+        title: "Duplex Design Jean Macé",
+        type: "coloc",
+        typeLabel: "Chambre en colocation (3 pers.)",
+        roomSize: "15 m²",
+        totalSize: "95 m²",
+        city: "Lyon",
+        address: "Avenue Jean Jaurès, Lyon 7e",
+        metro: "Métro & Gare Jean Macé (Ligne B) à 150m",
+        price: 590,
+        badge: "Disponible immédiatement",
+        badgeColor: "bg-emerald-600",
+        images: [
+          "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1000&q=80"
+        ],
+        amenities: ["Bail individuel", "Éligible APL", "Fibre Wi-Fi 6", "Salle de bain privée", "Climatisation"],
+        flags: { bail_indiv: true, apl: true, sdb_privee: true, balcon: false, clim: true },
+        roommates: [
+          { name: "Emma", age: 23, job: "Étudiante en Master Droit", avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=80&h=80&q=80" },
+          { name: "Maxime", age: 27, job: "Chef de projet web", avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=80&h=80&q=80" }
+        ],
+        description: "Duplex chaleureux et contemporain dans le quartier branché du 7e. Cuisine américaine entièrement équipée avec îlot central, séjour lumineux. Votre chambre dispose de sa propre salle d'eau privative avec douche à l'italienne."
+      },
+      {
+        id: 3,
+        title: "Studio Meublé aux Chartrons",
+        type: "entier",
+        typeLabel: "Logement entier (Studio indépendant)",
+        roomSize: "32 m²",
+        totalSize: "32 m²",
+        city: "Bordeaux",
+        address: "Rue Notre-Dame, Chartrons, Bordeaux",
+        metro: "Tramway B (Arrêt CAPC) à 2 min",
+        price: 780,
+        badge: "Coup de cœur",
+        badgeColor: "bg-indigo-600",
+        images: [
+          "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=80"
+        ],
+        amenities: ["Éligible APL", "Fibre Wi-Fi 6", "Balcon / Terrasse", "Climatisation", "Machine Nespresso"],
+        flags: { bail_indiv: true, apl: true, sdb_privee: true, balcon: true, clim: true },
+        roommates: [],
+        description: "Studio d'architecte entièrement rénové avec matériaux nobles. Pierres bordelaises apparentes, terrasse privative sans vis-à-vis pour déjeuner au soleil. Idéal jeune actif ou étudiant exigeant."
+      },
+      {
+        id: 4,
+        title: "Maison Vauban avec Patio",
+        type: "coloc",
+        typeLabel: "Chambre en colocation (5 pers.)",
+        roomSize: "18 m²",
+        totalSize: "145 m²",
+        city: "Lille",
+        address: "Boulevard Vauban, Lille",
+        metro: "Métro Cormontaigne (Ligne 2) à 400m",
+        price: 540,
+        badge: "Disponible immédiatement",
+        badgeColor: "bg-emerald-600",
+        images: [
+          "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=1000&q=80"
+        ],
+        amenities: ["Bail individuel", "Éligible APL", "Salle de bain privée", "Fibre Wi-Fi 6", "Cour intérieure"],
+        flags: { bail_indiv: true, apl: true, sdb_privee: true, balcon: true, clim: false },
+        roommates: [
+          { name: "Sarah", age: 22, job: "Étudiante en Médecine", avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=80&h=80&q=80" },
+          { name: "Antoine", age: 25, job: "Architecte junior", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=80&h=80&q=80" },
+          { name: "Manon", age: 24, job: "Professeur des écoles", avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=80&h=80&q=80" }
+        ],
+        description: "Grande maison de maître lilloise avec magnifique patio paysagé pour les barbecues. Salle de sport privative au sous-sol. Votre chambre comprend salle d'eau privative et bureau double écran."
+      },
+      {
+        id: 5,
+        title: "T2 Traversant Île de Nantes",
+        type: "entier",
+        typeLabel: "Logement entier (Appartement T2)",
+        roomSize: "46 m²",
+        totalSize: "46 m²",
+        city: "Nantes",
+        address: "Boulevard Vincent Gâche, Nantes",
+        metro: "Tram 2 & 3 (Vincent Gâche) au pied de l'immeuble",
+        price: 850,
+        badge: "Nouveau",
+        badgeColor: "bg-indigo-600",
+        images: [
+          "https://images.unsplash.com/photo-1502005229762-ee1b2b8ab00f?auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1000&q=80"
+        ],
+        amenities: ["Éligible APL", "Fibre Wi-Fi 6", "Balcon / Terrasse", "Ascenseur", "Parking sécurisé"],
+        flags: { bail_indiv: true, apl: true, sdb_privee: true, balcon: true, clim: false },
+        roommates: [],
+        description: "Appartement T2 moderne dans une résidence neuve sécurisée. Grande pièce de vie lumineuse ouvrant sur une loggia de 8 m² avec vue dégagée sur la Loire. Chambre séparée avec literie haut de gamme."
+      },
+      {
+        id: 6,
+        title: "Appartement Bourgeois Capitole",
+        type: "coloc",
+        typeLabel: "Chambre en colocation (3 pers.)",
+        roomSize: "19 m²",
+        totalSize: "105 m²",
+        city: "Toulouse",
+        address: "Rue Gambetta, Capitole, Toulouse",
+        metro: "Métro Capitole (Ligne A) à 200m",
+        price: 490,
+        badge: "Économique",
+        badgeColor: "bg-emerald-600",
+        images: [
+          "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1000&q=80"
+        ],
+        amenities: ["Bail individuel", "Éligible APL", "Fibre Wi-Fi 6", "Climatisation"],
+        flags: { bail_indiv: true, apl: true, sdb_privee: false, balcon: false, clim: true },
+        roommates: [
+          { name: "Chloé", age: 24, job: "Ingénieure Aérospatiale", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&h=80&q=80" },
+          { name: "Lucas", age: 26, job: "Data Analyst", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&h=80&q=80" }
+        ],
+        description: "Colocation de charme dans le cœur historique de Toulouse. Briques foraines, cheminée d'époque, salon convivial avec canapé d'angle et Smart TV 65 pouces. Climatisation réversible dans chaque chambre."
+      },
+      {
+        id: 7,
+        title: "Coliving Premium Convention",
+        type: "coloc",
+        typeLabel: "Chambre en coliving (4 pers.)",
+        roomSize: "17 m²",
+        totalSize: "130 m²",
+        city: "Paris",
+        address: "Rue de Convention, Paris 15e",
+        metro: "Métro Convention (Ligne 12) à 100m",
+        price: 920,
+        badge: "Prestige",
+        badgeColor: "bg-amber-500",
+        images: [
+          "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1000&q=80"
+        ],
+        amenities: ["Bail individuel", "Éligible APL", "Salle de bain privée", "Balcon / Terrasse", "Ménage hebdomadaire"],
+        flags: { bail_indiv: true, apl: true, sdb_privee: true, balcon: true, clim: true },
+        roommates: [
+          { name: "Alexandre", age: 29, job: "Avocat d'affaires", avatar: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=80&h=80&q=80" },
+          { name: "Camille", age: 27, job: "Responsable Marketing", avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=80&h=80&q=80" }
+        ],
+        description: "Très bel appartement refait à neuf avec terrasse arborée privative. Service de ménage hebdomadaire complet. Chambre avec balcon privatif sans vis-à-vis, literie Queen size et dressing."
+      },
+      {
+        id: 8,
+        title: "Studio Contemporain Vieux-Port",
+        type: "entier",
+        typeLabel: "Logement entier (Studio T1)",
+        roomSize: "29 m²",
+        totalSize: "29 m²",
+        city: "Marseille",
+        address: "Quai de Rive Neuve, Marseille 1er",
+        metro: "Métro Vieux-Port (M1) à 300m",
+        price: 680,
+        badge: "Vue Dégagée",
+        badgeColor: "bg-indigo-600",
+        images: [
+          "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1000&q=80"
+        ],
+        amenities: ["Éligible APL", "Fibre Wi-Fi 6", "Climatisation", "Cuisine induction"],
+        flags: { bail_indiv: true, apl: true, sdb_privee: true, balcon: false, clim: true },
+        roommates: [],
+        description: "Studio lumineux et climatisé à deux pas du Vieux-Port. Espace optimisé avec lit escamotable haut de gamme, table bar, cuisine équipée et grande douche à l'italienne. Très calme car donnant sur cour arborée."
+      }
+    ];
+
+    let currentFilterType = "all";
+    let favoritesList = [];
+
+    // Load favorites from memory/storage
+    try {
+      const stored = localStorage.getItem("coloc_favorites");
+      if (stored) favoritesList = JSON.parse(stored);
+    } catch (e) {
+      favoritesList = [1, 3]; // default nice starter
+    }
+
+    function getFilteredListings() {
+      const city = document.getElementById("filter-city").value;
+      const budgetMax = parseInt(document.getElementById("filter-budget").value, 10);
+      const sortBy = document.getElementById("sort-select").value;
+
+      // Amenities selected
+      const selectedAmenities = Array.from(document.querySelectorAll(".filter-amenity:checked")).map(el => el.value);
+
+      let list = APARTMENTS.filter(item => {
+        // Type filter
+        if (currentFilterType !== "all" && item.type !== currentFilterType) return false;
+
+        // City filter
+        if (city !== "all" && item.city.toLowerCase() !== city.toLowerCase()) return false;
+
+        // Budget filter
+        if (item.price > budgetMax) return false;
+
+        // Amenities flags
+        for (const amenity of selectedAmenities) {
+          if (!item.flags[amenity]) return false;
+        }
+
+        return true;
+      });
+
+      // Sorting
+      if (sortBy === "price-asc") {
+        list.sort((a, b) => a.price - b.price);
+      } else if (sortBy === "price-desc") {
+        list.sort((a, b) => b.price - a.price);
+      } else if (sortBy === "surface-desc") {
+        list.sort((a, b) => parseInt(b.totalSize) - parseInt(a.totalSize));
+      }
+
+      return list;
+    }
+
+    function renderListings() {
+      const container = document.getElementById("listings-grid");
+      const emptyState = document.getElementById("no-results-state");
+      const resultsBadge = document.getElementById("results-count-badge");
+      const filtered = getFilteredListings();
+
+      resultsBadge.textContent = `${filtered.length} logement${filtered.length > 1 ? 's' : ''} disponible${filtered.length > 1 ? 's' : ''}`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      } else {
+        emptyState.classList.add("hidden");
+      }
+
+      container.innerHTML = filtered.map(item => {
+        const isFav = favoritesList.includes(item.id);
+        const roommatesHtml = item.roommates.length > 0 ? `
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+            <div class="flex items-center -space-x-2 overflow-hidden">
+              ${item.roommates.map(r => `
+                <img class="inline-block h-7 w-7 rounded-full ring-2 ring-white object-cover" 
+                     src="${r.avatar}" 
+                     alt="${r.name}" 
+                     title="${r.name}, ${r.age} ans - ${r.job}">
+              `).join('')}
+            </div>
+            <span class="text-[11px] font-semibold text-slate-500">
+              Colocs déjà installés (${item.roommates.length})
+            </span>
+          </div>
+        ` : `
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 font-semibold">
+            <span class="flex items-center gap-1 text-indigo-600"><i data-lucide="user-check" class="w-3.5 h-3.5"></i> Logement individuel</span>
+            <span>Intimité totale</span>
+          </div>
+        `;
+
+        return `
+          <article class="bg-white rounded-3xl overflow-hidden border border-slate-200/90 hover:border-brand-500/40 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
+            
+            <!-- Image Card Header -->
+            <div class="relative h-60 overflow-hidden">
+              <img src="${item.images[0]}" 
+                   alt="${item.title}" 
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                   onerror="this.src='https://placehold.co/600x400/475569/ffffff?text=${encodeURIComponent(item.title)}'"/>
+              
+              <!-- Badges Over Image -->
+              <div class="absolute top-3.5 left-3.5 flex flex-col gap-1.5 items-start">
+                <span class="${item.badgeColor} text-white text-[11px] font-black px-2.5 py-1 rounded-full shadow-md uppercase tracking-wider">
+                  ${item.badge}
+                </span>
+                <span class="badge-blur text-white text-[11px] font-semibold px-2.5 py-0.5 rounded-full">
+                  ${item.typeLabel}
+                </span>
+              </div>
+
+              <!-- Heart Favorite Button -->
+              <button onclick="toggleFavorite(${item.id}, event)" 
+                      class="absolute top-3.5 right-3.5 w-10 h-10 rounded-full bg-white/90 backdrop-blur hover:bg-white text-slate-600 hover:text-rose-500 shadow-md flex items-center justify-center transition active:scale-90"
+                      title="${isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}">
+                <i data-lucide="heart" class="w-5 h-5 ${isFav ? 'fill-rose-500 text-rose-500' : ''}"></i>
+              </button>
+
+              <!-- Price Tag Over Bottom of Image -->
+              <div class="absolute bottom-3 left-3.5 right-3.5 flex items-center justify-between pointer-events-none">
+                <span class="badge-blur text-white text-xs font-bold px-3 py-1.5 rounded-xl shadow-lg flex items-center gap-1.5">
+                  <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+                  Tout inclus (charges + wifi)
+                </span>
+                <div class="bg-white/95 backdrop-blur px-3 py-1 rounded-xl shadow-lg text-slate-900 font-extrabold text-sm">
+                  ${item.price} € <span class="text-[10px] text-slate-500 font-normal">/ mois</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Body Content -->
+            <div class="p-5 flex-grow flex flex-col justify-between space-y-4">
+              <div>
+                <div class="flex items-center gap-1 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                  <i data-lucide="map-pin" class="w-3.5 h-3.5 text-brand-600"></i>
+                  <span>${item.city} • ${item.address}</span>
+                </div>
+
+                <h3 class="font-extrabold text-lg text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-1">
+                  ${item.title}
+                </h3>
+                
+                <p class="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
+                  ${item.metro}
+                </p>
+
+                <!-- Specs Tags -->
+                <div class="flex items-center gap-3 mt-3 text-xs font-semibold text-slate-600">
+                  <span class="flex items-center gap-1 bg-slate-100 px-2 py-1 rounded-lg">
+                    <i data-lucide="maximize" class="w-3.5 h-3.5 text-slate-400"></i>
+                    ${item.roomSize} privatif
+                  </span>
+                  <span class="flex items-center gap-1 bg-slate-100 px-2 py-1 rounded-lg">
+                    <i data-lucide="home" class="w-3.5 h-3.5 text-slate-400"></i>
+                    ${item.totalSize} total
+                  </span>
+                </div>
+              </div>
+
+              <!-- Roommates list or single preview -->
+              ${roommatesHtml}
+
+              <!-- Action Button -->
+              <button onclick="openListingModal(${item.id})" class="w-full py-3 px-4 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-brand-600 transition shadow flex items-center justify-center gap-2">
+                <span>Découvrir & Réserver</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+          </article>
+        `;
+      }).join('');
+
+      // Refresh icons for dynamically injected elements
+      lucide.createIcons();
+    }
+
+    function toggleFavorite(id, event) {
+      if (event) event.stopPropagation();
+
+      const index = favoritesList.indexOf(id);
+      const isAdding = index === -1;
+
+      if (isAdding) {
+        favoritesList.push(id);
+        showToast("Ajouté à vos favoris !", "success");
+      } else {
+        favoritesList.splice(index, 1);
+        showToast("Retiré de vos favoris", "neutral");
+      }
+
+      try {
+        localStorage.setItem("coloc_favorites", JSON.stringify(favoritesList));
+      } catch (e) {}
+
+      updateFavoritesUI();
+      renderListings();
+    }
+
+    function updateFavoritesUI() {
+      const badge = document.getElementById("favorites-badge");
+      const drawerCount = document.getElementById("fav-drawer-count");
+      const count = favoritesList.length;
+
+      if (count > 0) {
+        badge.classList.remove("hidden");
+        badge.textContent = count;
+      } else {
+        badge.classList.add("hidden");
+      }
+      if (drawerCount) drawerCount.textContent = count;
+
+      // Update drawer inner content
+      const drawerList = document.getElementById("favorites-items-list");
+      if (!drawerList) return;
+
+      if (count === 0) {
+        drawerList.innerHTML = `
+          <div class="text-center py-12 text-slate-400">
+            <i data-lucide="heart-off" class="w-10 h-10 mx-auto mb-2 text-slate-300"></i>
+            <p class="text-xs font-bold">Aucun logement enregistré pour le moment.</p>
+            <p class="text-[11px] text-slate-400 mt-1">Cliquez sur le cœur d'une annonce pour la sauvegarder.</p>
+          </div>
+        `;
+      } else {
+        const favItems = APARTMENTS.filter(a => favoritesList.includes(a.id));
+        drawerList.innerHTML = favItems.map(item => `
+          <div class="flex items-center gap-3 p-3 bg-slate-50 border border-slate-200 rounded-2xl relative group">
+            <img src="${item.images[0]}" class="w-16 h-16 rounded-xl object-cover shrink-0" alt="${item.title}" />
+            <div class="flex-grow min-w-0">
+              <h4 class="text-xs font-bold text-slate-900 truncate">${item.title}</h4>
+              <p class="text-[11px] text-slate-500">${item.city} • ${item.price} €/mois</p>
+              <button onclick="openListingModal(${item.id}); toggleFavoritesDrawer(false);" class="text-[11px] font-bold text-brand-600 hover:underline mt-1 block">
+                Voir l'appartement
+              </button>
+            </div>
+            <button onclick="toggleFavorite(${item.id})" class="p-1.5 text-slate-400 hover:text-rose-500 transition" title="Supprimer">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+        `).join('');
+      }
+
+      lucide.createIcons();
+    }
+
+    function toggleFavoritesDrawer(open) {
+      const drawer = document.getElementById("favorites-drawer");
+      if (open) {
+        drawer.classList.remove("hidden");
+        updateFavoritesUI();
+      } else {
+        drawer.classList.add("hidden");
+      }
+    }
+
+    function clearAllFavorites() {
+      favoritesList = [];
+      try { localStorage.removeItem("coloc_favorites"); } catch(e) {}
+      updateFavoritesUI();
+      renderListings();
+      showToast("Favoris vidés", "neutral");
+    }
+
+    function openListingModal(id) {
+      const item = APARTMENTS.find(a => a.id === id);
+      if (!item) return;
+
+      const modal = document.getElementById("listing-modal");
+      const content = document.getElementById("modal-content");
+
+      content.innerHTML = `
+        <div class="grid grid-cols-1 lg:grid-cols-12 max-h-[85vh] overflow-y-auto">
+          
+          <!-- Left side: Gallery and Details -->
+          <div class="lg:col-span-7 p-6 sm:p-8 space-y-6 border-b lg:border-b-0 lg:border-r border-slate-200">
+            
+            <!-- Gallery showcase with thumbnail switch -->
+            <div>
+              <div class="relative h-64 sm:h-80 rounded-2xl overflow-hidden mb-3 bg-slate-900">
+                <img id="modal-main-img" src="${item.images[0]}" class="w-full h-full object-cover transition-opacity duration-300" alt="${item.title}" />
+                <span class="absolute top-3 left-3 ${item.badgeColor} text-white text-xs font-black px-3 py-1 rounded-full shadow">
+                  ${item.badge}
+                </span>
+                <span class="absolute top-3 right-3 bg-black/60 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                  ${item.roomSize} privatif
+                </span>
+              </div>
+              
+              <!-- Thumbnails -->
+              <div class="flex gap-2 overflow-x-auto pb-1">
+                ${item.images.map((img, i) => `
+                  <button onclick="changeModalPhoto('${img}')" class="shrink-0 w-16 h-12 rounded-lg overflow-hidden border-2 hover:border-brand-600 transition">
+                    <img src="${img}" class="w-full h-full object-cover" />
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Title & Location -->
+            <div>
+              <div class="flex items-center gap-2 text-xs font-bold text-brand-600 uppercase tracking-wider">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+                <span>${item.city} — ${item.address}</span>
+              </div>
+              <h2 class="text-2xl font-extrabold text-slate-900 mt-1">${item.title}</h2>
+              <p class="text-xs text-slate-500 mt-1 flex items-center gap-1.5">
+                <i data-lucide="train" class="w-3.5 h-3.5 text-slate-400"></i> ${item.metro}
+              </p>
+            </div>
+
+            <!-- Description -->
+            <div>
+              <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Description du logement</h4>
+              <p class="text-sm text-slate-600 leading-relaxed">${item.description}</p>
+            </div>
+
+            <!-- Key Amenities included -->
+            <div>
+              <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Équipements & Services Inclus</h4>
+              <div class="grid grid-cols-2 gap-2.5">
+                ${item.amenities.map(a => `
+                  <div class="flex items-center gap-2 text-xs font-semibold text-slate-700 bg-slate-50 px-3 py-2 rounded-xl border border-slate-200/60">
+                    <i data-lucide="check" class="w-4 h-4 text-emerald-600 stroke-[3]"></i>
+                    <span>${a}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Colocataires Présentation (If coloc) -->
+            ${item.roommates.length > 0 ? `
+              <div>
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Vos futurs colocataires (${item.roommates.length})</h4>
+                <div class="space-y-2.5">
+                  ${item.roommates.map(r => `
+                    <div class="flex items-center gap-3 p-3 rounded-2xl bg-brand-50/50 border border-brand-100">
+                      <img src="${r.avatar}" class="w-10 h-10 rounded-full object-cover border border-white shadow-sm" alt="${r.name}" />
+                      <div>
+                        <h5 class="text-xs font-bold text-slate-900">${r.name}, ${r.age} ans</h5>
+                        <p class="text-[11px] text-slate-500">${r.job} • Profil vérifié</p>
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            ` : `
+              <div class="p-4 rounded-2xl bg-indigo-50 border border-indigo-100 text-xs text-indigo-900">
+                <span class="font-bold block mb-0.5">Logement entièrement privatif</span>
+                Vous ne partagez pas votre espace. Idéal si vous recherchez l'indépendance absolue dans un cadre tout équipé.
+              </div>
+            `}
+
+          </div>
+
+          <!-- Right side: Booking and Application Form -->
+          <div class="lg:col-span-5 p-6 sm:p-8 bg-slate-50/70 flex flex-col justify-between">
+            <div>
+              <!-- Price Banner -->
+              <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm mb-6">
+                <span class="text-[11px] uppercase font-bold text-slate-400">Tarif tout inclus</span>
+                <div class="text-3xl font-extrabold text-slate-900 mt-0.5">
+                  ${item.price} € <span class="text-xs font-medium text-slate-400">/ mois</span>
+                </div>
+                <div class="text-[11px] text-emerald-700 font-semibold mt-1 flex items-center gap-1">
+                  <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                  Loyer + Charges + Eau + Électricité + Wifi 6
+                </div>
+              </div>
+
+              <!-- Interactive Action Tabs: Visite vs Dossier -->
+              <div class="flex bg-slate-200/80 p-1 rounded-xl mb-4 text-xs font-bold">
+                <button id="tab-visite-btn" onclick="switchModalFormTab('visite')" class="flex-1 py-2 rounded-lg bg-white shadow-sm text-slate-900 transition">
+                  Planifier une visite
+                </button>
+                <button id="tab-dossier-btn" onclick="switchModalFormTab('dossier')" class="flex-1 py-2 rounded-lg text-slate-500 hover:text-slate-900 transition">
+                  Déposer mon dossier
+                </button>
+              </div>
+
+              <!-- Form: Visite -->
+              <form id="form-visite" onsubmit="handleVisitSubmit(event, ${item.id})" class="space-y-3">
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-600 mb-1">Format de visite</label>
+                  <div class="grid grid-cols-2 gap-2 text-xs">
+                    <label class="flex items-center gap-1.5 p-2 rounded-xl bg-white border border-slate-200 cursor-pointer">
+                      <input type="radio" name="visit-format" checked class="text-brand-600" />
+                      <span>Visio (WhatsApp)</span>
+                    </label>
+                    <label class="flex items-center gap-1.5 p-2 rounded-xl bg-white border border-slate-200 cursor-pointer">
+                      <input type="radio" name="visit-format" class="text-brand-600" />
+                      <span>Sur place</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-600 mb-1">Date souhaitée</label>
+                  <input type="date" required value="${new Date(Date.now() + 86400000).toISOString().split('T')[0]}" class="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500" />
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-600 mb-1">Votre Nom & Prénom</label>
+                  <input type="text" required placeholder="Alex Dupont" class="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500" />
+                </div>
+
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-600 mb-1">Numéro de téléphone</label>
+                  <input type="tel" required placeholder="06 12 34 56 78" class="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500" />
+                </div>
+
+                <button type="submit" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs transition shadow-lg shadow-brand-500/25 flex items-center justify-center gap-2 mt-4">
+                  <i data-lucide="calendar" class="w-4 h-4"></i>
+                  Confirmer mon créneau de visite
+                </button>
+              </form>
+
+              <!-- Form: Dossier direct -->
+              <form id="form-dossier" onsubmit="handleVisitSubmit(event, ${item.id})" class="space-y-3 hidden">
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-600 mb-1">Date d'emménagement souhaitée</label>
+                  <input type="date" required value="${new Date().toISOString().split('T')[0]}" class="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl" />
+                </div>
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-600 mb-1">Votre situation</label>
+                  <select class="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl">
+                    <option>Étudiant(e) avec garant</option>
+                    <option>Jeune actif / CDI</option>
+                    <option>Alternant / Stagiaire</option>
+                    <option>Autre situation</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-600 mb-1">Message ou présentation brève</label>
+                  <textarea rows="2" placeholder="Bonjour, je recherche un logement calme et convivial..." class="w-full text-xs px-3 py-2 bg-white border border-slate-200 rounded-xl"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 mt-4">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i>
+                  Bloquer ce logement sous réserve
+                </button>
+              </form>
+
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-200/60 text-[11px] text-slate-400 text-center flex items-center justify-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+              Bail individuel garanti sans frais cachés
+            </div>
+          </div>
+
+        </div>
+      `;
+
+      modal.classList.remove("hidden");
+      document.body.classList.add("overflow-hidden");
+      lucide.createIcons();
+    }
+
+    function changeModalPhoto(url) {
+      const mainImg = document.getElementById("modal-main-img");
+      if (mainImg) {
+        mainImg.style.opacity = '0.4';
+        setTimeout(() => {
+          mainImg.src = url;
+          mainImg.style.opacity = '1';
+        }, 150);
+      }
+    }
+
+    function switchModalFormTab(tab) {
+      const btnVisite = document.getElementById("tab-visite-btn");
+      const btnDossier = document.getElementById("tab-dossier-btn");
+      const formVisite = document.getElementById("form-visite");
+      const formDossier = document.getElementById("form-dossier");
+
+      if (tab === 'visite') {
+        btnVisite.className = "flex-1 py-2 rounded-lg bg-white shadow-sm text-slate-900 transition";
+        btnDossier.className = "flex-1 py-2 rounded-lg text-slate-500 hover:text-slate-900 transition";
+        formVisite.classList.remove("hidden");
+        formDossier.classList.add("hidden");
+      } else {
+        btnDossier.className = "flex-1 py-2 rounded-lg bg-white shadow-sm text-slate-900 transition";
+        btnVisite.className = "flex-1 py-2 rounded-lg text-slate-500 hover:text-slate-900 transition";
+        formDossier.classList.remove("hidden");
+        formVisite.classList.add("hidden");
+      }
+      lucide.createIcons();
+    }
+
+    function closeListingModal() {
+      const modal = document.getElementById("listing-modal");
+      modal.classList.add("hidden");
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    function openFastDossierModal() {
+      const modal = document.getElementById("dossier-modal");
+      modal.classList.remove("hidden");
+      document.body.classList.add("overflow-hidden");
+      lucide.createIcons();
+    }
+
+    function closeFastDossierModal() {
+      const modal = document.getElementById("dossier-modal");
+      modal.classList.add("hidden");
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    function handleVisitSubmit(e, listingId) {
+      e.preventDefault();
+      closeListingModal();
+      showToast("Demande transmise avec succès ! Nous vous contactons sous 2h ouvrées.", "success");
+    }
+
+    function handleDossierSubmit(e) {
+      e.preventDefault();
+      closeFastDossierModal();
+      showToast("Dossier soumis ! Notre équipe étudie vos pièces sous 24h ouvrées.", "success");
+    }
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      e.target.reset();
+      showToast("Merci ! Un conseiller vous rappelle dans un instant.", "success");
+    }
+
+    function initYieldSimulator() {
+      const citySelect = document.getElementById("sim-city");
+      const surfaceRange = document.getElementById("sim-surface");
+      const surfaceLabel = document.getElementById("sim-surface-label");
+      const monthlyLabel = document.getElementById("sim-result-monthly");
+      const yearlyLabel = document.getElementById("sim-result-yearly");
+      const roomButtons = document.querySelectorAll(".sim-room-btn");
+
+      let currentRooms = 3;
+
+      function updateCalculation() {
+        const surface = parseInt(surfaceRange.value, 10);
+        surfaceLabel.textContent = `${surface} m²`;
+
+        const selectedOption = citySelect.options[citySelect.selectedIndex];
+        const basePriceM2 = parseFloat(selectedOption.getAttribute("data-price-m2") || 25);
+
+        // Colocation premium yield model: base on rooms & surface
+        const roomBonus = currentRooms * 120;
+        const estimatedMonthly = Math.round((surface * basePriceM2 * 0.75) + roomBonus);
+        const estimatedYearly = estimatedMonthly * 12;
+
+        monthlyLabel.innerHTML = `${estimatedMonthly.toLocaleString('fr-FR')} € <span class="text-xs font-medium text-slate-300">/ mois</span>`;
+        yearlyLabel.textContent = `${estimatedYearly.toLocaleString('fr-FR')} €`;
+      }
+
+      surfaceRange.addEventListener("input", updateCalculation);
+      citySelect.addEventListener("change", updateCalculation);
+
+      roomButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          roomButtons.forEach(b => {
+            b.classList.remove("active", "border-brand-600", "bg-brand-50", "text-brand-700");
+            b.classList.add("border-slate-200");
+          });
+          btn.classList.add("active", "border-brand-600", "bg-brand-50", "text-brand-700");
+          btn.classList.remove("border-slate-200");
+          currentRooms = parseInt(btn.getAttribute("data-rooms"), 10);
+          updateCalculation();
+        });
+      });
+
+      updateCalculation();
+    }
+
+    function requestOwnerAudit() {
+      showToast("Demande d'audit reçue ! Un expert en investissement vous recontacte.", "success");
+    }
+
+    function showToast(message, type = "success") {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl text-xs font-bold text-white transition-all transform duration-300 translate-y-3 ${
+        type === "success" ? "bg-slate-900 border border-emerald-500/40" : "bg-slate-800"
+      }`;
+
+      const iconName = type === "success" ? "check-circle" : "info";
+      const iconColor = type === "success" ? "text-emerald-400" : "text-brand-400";
+
+      toast.innerHTML = `
+        <i data-lucide="${iconName}" class="w-4 h-4 ${iconColor}"></i>
+        <span>${message}</span>
+      `;
+
+      container.appendChild(toast);
+      lucide.createIcons();
+
+      setTimeout(() => {
+        toast.classList.remove("translate-y-3");
+      }, 10);
+
+      setTimeout(() => {
+        toast.classList.add("opacity-0", "translate-y-2");
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    function setupEventListeners() {
+      // Type buttons
+      document.querySelectorAll(".filter-type-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".filter-type-btn").forEach(b => {
+            b.classList.remove("active", "bg-brand-600", "text-white");
+            b.classList.add("text-slate-600");
+          });
+          btn.classList.add("active", "bg-brand-600", "text-white");
+          btn.classList.remove("text-slate-600");
+
+          currentFilterType = btn.getAttribute("data-type");
+          renderListings();
+        });
+      });
+
+      // Budget slider
+      const budgetSlider = document.getElementById("filter-budget");
+      const budgetLabel = document.getElementById("budget-value");
+      budgetSlider.addEventListener("input", (e) => {
+        budgetLabel.textContent = `${e.target.value} € / mois`;
+        renderListings();
+      });
+
+      // City & sort changes
+      document.getElementById("filter-city").addEventListener("change", renderListings);
+      document.getElementById("sort-select").addEventListener("change", renderListings);
+
+      // Amenity checkboxes
+      document.querySelectorAll(".filter-amenity").forEach(chk => {
+        chk.addEventListener("change", renderListings);
+      });
+
+      // Reset filters button
+      document.getElementById("btn-reset-filters").addEventListener("click", resetAllFilters);
+
+      // Mobile Menu
+      const mobBtn = document.getElementById("mobile-menu-btn");
+      const mobMenu = document.getElementById("mobile-menu");
+      if (mobBtn && mobMenu) {
+        mobBtn.addEventListener("click", () => {
+          mobMenu.classList.toggle("hidden");
+        });
+      }
+
+      // Drawer trigger
+      document.getElementById("btn-open-favorites").addEventListener("click", () => {
+        toggleFavoritesDrawer(true);
+      });
+
+      // FAQ accordion toggle
+      document.querySelectorAll(".faq-trigger").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const content = btn.nextElementSibling;
+          const icon = btn.querySelector(".faq-icon");
+          const isOpen = !content.classList.contains("hidden");
+
+          // Close all
+          document.querySelectorAll(".faq-content").forEach(c => c.classList.add("hidden"));
+          document.querySelectorAll(".faq-icon").forEach(i => i.classList.remove("rotate-180"));
+
+          if (!isOpen) {
+            content.classList.remove("hidden");
+            icon.classList.add("rotate-180");
+          }
+        });
+      });
+
+      // Close modal on escape
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeListingModal();
+          closeFastDossierModal();
+          toggleFavoritesDrawer(false);
+        }
+      });
+    }
+
+    function resetAllFilters() {
+      document.getElementById("filter-city").value = "all";
+      document.getElementById("filter-budget").value = "1500";
+      document.getElementById("budget-value").textContent = "1 500 € / mois";
+      document.querySelectorAll(".filter-amenity").forEach(c => c.checked = false);
+      currentFilterType = "all";
+
+      document.querySelectorAll(".filter-type-btn").forEach(b => {
+        b.classList.remove("active", "bg-brand-600", "text-white");
+        b.classList.add("text-slate-600");
+      });
+      document.querySelector('.filter-type-btn[data-type="all"]').classList.add("active", "bg-brand-600", "text-white");
+
+      renderListings();
+      showToast("Filtres réinitialisés", "neutral");
+    }
+
+    function filterByCity(cityName) {
+      document.getElementById("filter-city").value = cityName;
+      renderListings();
+      document.getElementById("logements").scrollIntoView({ behavior: 'smooth' });
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+      setupEventListeners();
+      initYieldSimulator();
+      updateFavoritesUI();
+      renderListings();
+    });
+  </script>
+</body>
+</html>
