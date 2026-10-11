@@ -883,33 +883,33 @@
           <p class="text-xs text-slate-500 mt-1">Réponse de principe certifiée sous 24h ouvrées.</p>
         </div>
 
-        <form id="dossier-form" onsubmit="handleDossierSubmit(event)" class="space-y-4">
+        <form action="https://formspree.io/f/mvkzqbgr" method="POST" class="space-y-4">
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-bold text-slate-600 mb-1">Prénom</label>
-              <input type="text" required placeholder="Alexandre" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white" />
+              <input type="text" name="prenom" required placeholder="Alexandre" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white" />
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-600 mb-1">Nom</label>
-              <input type="text" required placeholder="Dupont" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white" />
+              <input type="text" name="nom" required placeholder="Dupont" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white" />
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-bold text-slate-600 mb-1">Email</label>
-              <input type="email" required placeholder="alex@exemple.fr" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white" />
+              <input type="email" name="email" required placeholder="alex@exemple.fr" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white" />
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-600 mb-1">Téléphone</label>
-              <input type="tel" required placeholder="06 12 34 56 78" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white" />
+              <input type="tel" name="telephone" required placeholder="06 12 34 56 78" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white" />
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="block text-xs font-bold text-slate-600 mb-1">Statut actuel</label>
-              <select class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white">
+              <select name="situation" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white">
                 <option>Salarié(e) CDI</option>
                 <option>Salarié(e) CDD / Période d'essai</option>
                 <option>Étudiant(e) / Alternant(e)</option>
@@ -919,7 +919,7 @@
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-600 mb-1">Ville recherchée</label>
-              <select class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white">
+              <select name="ville" class="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:bg-white">
                 <option>Paris</option>
                 <option>Lyon</option>
                 <option>Bordeaux</option>
