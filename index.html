@@ -1586,14 +1586,15 @@
               </form>
 
               <!-- Form: Dossier direct -->
-              <form id="form-dossier" onsubmit="handleVisitSubmit(event, ${item.id})" class="space-y-3 hidden">
+              <form id="form-dossier" action="https://formspree.io/f/mvkzqbgr" method="POST" class="space-y-3 hidden">
+              <input type="hidden" name="logement" value="${item.title}">
                 <div>
                   <label class="block text-[11px] font-bold text-slate-600 mb-1">Date d'emménagement souhaitée</label>
-                  <input type="date" required value="${new Date().toISOString().split('T')[0]}" class="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl" />
+                  <input type="date" name="date_emmenagement" required value="${new Date().toISOString().split('T')[0]}" class="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl" />
                 </div>
                 <div>
                   <label class="block text-[11px] font-bold text-slate-600 mb-1">Votre situation</label>
-                  <select class="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl">
+                  <select name="situation" class="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl">
                     <option>Étudiant(e) avec garant</option>
                     <option>Jeune actif / CDI</option>
                     <option>Alternant / Stagiaire</option>
@@ -1601,8 +1602,20 @@
                   </select>
                 </div>
                 <div>
+  <label class="block text-[11px] font-bold text-slate-600 mb-1">Votre nom complet</label>
+  <input type="text" name="nom" required placeholder="Alexandre Dupont" class="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl" />
+</div>
+<div>
+  <label class="block text-[11px] font-bold text-slate-600 mb-1">Votre email</label>
+  <input type="email" name="email" required placeholder="alex@exemple.fr" class="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl" />
+</div>
+<div>
+  <label class="block text-[11px] font-bold text-slate-600 mb-1">Votre téléphone</label>
+  <input type="tel" name="telephone" required placeholder="06 12 34 56 78" class="w-full text-xs px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl" />
+</div>
+                <div>
                   <label class="block text-[11px] font-bold text-slate-600 mb-1">Message ou présentation brève</label>
-                  <textarea rows="2" placeholder="Bonjour, je recherche un logement calme et convivial..." class="w-full text-xs px-3 py-2 bg-white border border-slate-200 rounded-xl"></textarea>
+                  <textarea name="message" rows="2" placeholder="Bonjour, je recherche un logement calme et convivial..." class="w-full text-xs px-3 py-2 bg-white border border-slate-200 rounded-xl"></textarea>
                 </div>
                 <button type="submit" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition shadow-lg shadow-emerald-600/20 flex items-center justify-center gap-2 mt-4">
                   <i data-lucide="check-circle" class="w-4 h-4"></i>
